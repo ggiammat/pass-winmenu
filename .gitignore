@@ -7,4 +7,5 @@
 # Build artifacts
 [Bb]in/
 [Oo]bj/
+artifacts/
 version.txt
