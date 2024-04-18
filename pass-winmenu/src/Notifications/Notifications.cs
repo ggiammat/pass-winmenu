@@ -39,7 +39,7 @@ namespace PassWinmenu.Notifications
 			{
 				Visible = false
 			};
-			
+
 			AddMenuActions(actionDispatcher);
 		}
 
@@ -114,7 +114,13 @@ namespace PassWinmenu.Notifications
 			};
 
 			menu.Items.Add(startWithWindows);
-			menu.Items.Add("About", null, (sender, args) => Process.Start("https://github.com/geluk/pass-winmenu#readme"));
+
+			var openReadme = new ProcessStartInfo
+			{
+				FileName = "https://github.com/geluk/pass-winmenu#readme",
+				UseShellExecute = true,
+			};
+			menu.Items.Add("About", null, (sender, args) => Process.Start(openReadme));
 			menu.Items.Add("Quit", null, (sender, args) => App.Exit());
 			icon.ContextMenuStrip = menu;
 		}
@@ -148,7 +154,12 @@ namespace PassWinmenu.Notifications
 
 		private static void HandleDownloadUpdateClick(object? sender, EventArgs e)
 		{
-			Process.Start(DownloadUpdateString);
+			var openDownloadPage = new ProcessStartInfo
+			{
+				FileName = DownloadUpdateString,
+				UseShellExecute = true,
+			};
+			Process.Start(openDownloadPage);
 		}
 
 		public void Dispose()
