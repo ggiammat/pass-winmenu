@@ -267,6 +267,8 @@ notifications:
     types:
         # ...a password is copied to the clipboard:
         password-copied: true
+        # ...a password is typed:
+        password-typed: true
         # ...a new password has been generated:
         password-generated: true
         # ...a password has been edited:

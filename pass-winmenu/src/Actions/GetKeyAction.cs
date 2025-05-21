@@ -111,6 +111,12 @@ internal class GetKeyAction
 		if (type)
 		{
 			KeyboardEmulator.EnterText(chosenValue);
+			if (config.Notifications.Types.PasswordTyped)
+			{
+				notificationService.Raise(
+					$"The key has been typed.",
+					Severity.Info);
+			}
 		}
 	}
 }

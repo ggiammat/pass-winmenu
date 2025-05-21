@@ -3,6 +3,7 @@ namespace PassWinmenu.Configuration
 	public class NotificationTypesConfig
 	{
 		public bool PasswordCopied { get; set; } = true;
+		public bool PasswordTyped { get; set; } = true;
 		public bool TotpCopied { get; set; } = true;
 		public bool PasswordGenerated { get; set; } = false;
 		public bool PasswordUpdated { get; set; } = true;

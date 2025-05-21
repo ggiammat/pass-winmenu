@@ -102,6 +102,10 @@ namespace PassWinmenu.Actions
 				}
 
 				KeyboardEmulator.EnterText(passFile.Password);
+				if (notificationConfig.Types.PasswordTyped)
+				{
+					notificationService.Raise($"The password has been typed", Severity.Info);
+				}
 			}
 		}
 

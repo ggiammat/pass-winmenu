@@ -82,6 +82,12 @@ internal class DecryptMetadataAction
 		if (type)
 		{
 			KeyboardEmulator.EnterText(passFile.Metadata);
+			if (config.Notifications.Types.PasswordTyped)
+			{
+				notificationService.Raise(
+					$"The key has been typed.",
+					Severity.Info);
+			}
 		}
 	}
 }
