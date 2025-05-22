@@ -136,6 +136,9 @@ namespace PassWinmenu
 
 		public DependenciesBuilder RegisterApplication()
 		{
+
+			builder.RegisterInstance(new Sorting()).AsImplementedInterfaces();
+			
 			// Register user interaction types
 			builder.RegisterType<DialogCreator>()
 				.AsSelf();

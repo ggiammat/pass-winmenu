@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using PassWinmenu.Configuration;
+using PassWinmenu.Notifications;
 using PassWinmenu.PasswordManagement;
 using PassWinmenu.Utilities;
 
@@ -13,15 +14,19 @@ namespace PassWinmenu.Windows
 	{
 		private readonly IPasswordManager passwordManager;
 		private readonly PathDisplayService pathDisplayService;
+
+		public readonly ISortingService sortingService;
 		private readonly InterfaceConfig config;
 
 		public DialogCreator(
 			IPasswordManager passwordManager,
 			PathDisplayService pathDisplayService,
+			ISortingService sortingService,
 			InterfaceConfig config)
 		{
 			this.passwordManager = passwordManager;
 			this.pathDisplayService = pathDisplayService;
+			this.sortingService = sortingService;
 			this.config = config;
 		}
 
@@ -32,7 +37,7 @@ namespace PassWinmenu.Windows
 		public string? ShowFileSelectionWindow()
 		{
 			// Ask the user where the password file should be placed.
-			var pathWindow = new FileSelectionWindow(passwordManager.PasswordStore, config, "Choose a location...");
+			var pathWindow = new FileSelectionWindow(passwordManager.PasswordStore, config, sortingService, "Choose a location...");
 			pathWindow.ShowDialog();
 			if (!pathWindow.Success)
 			{
@@ -73,7 +78,7 @@ namespace PassWinmenu.Windows
 		/// <returns>One of the values contained in <paramref name="options"/>, or the default value of <typeparamref name="TEntry"/> if no option was chosen.</returns>
 		public Option<TEntry> ShowPasswordMenu<TEntry>(IEnumerable<TEntry> options, Func<TEntry, string> keySelector, string hint)
 		{
-			var menu = new PasswordSelectionWindow<TEntry>(options, keySelector, config, hint);
+			var menu = new PasswordSelectionWindow<TEntry>(options, keySelector, config, sortingService, hint);
 			menu.ShowDialog();
 			if (menu.Success)
 			{

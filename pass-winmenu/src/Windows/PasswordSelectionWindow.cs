@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using PassWinmenu.Configuration;
+using PassWinmenu.Notifications;
 using PassWinmenu.Utilities;
 
 namespace PassWinmenu.Windows
@@ -15,8 +16,9 @@ namespace PassWinmenu.Windows
 			IEnumerable<TEntry> options,
 			Func<TEntry, string> keySelector,
 			InterfaceConfig interfaceConfig,
+			ISortingService sortingService,
 			string hint)
-			: base(interfaceConfig, hint)
+			: base(interfaceConfig, sortingService, hint)
 		{
 			entries = options.ToDictionary(keySelector);
 			ResetItems(entries.Keys);

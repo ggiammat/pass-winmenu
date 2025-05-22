@@ -9,6 +9,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using PassWinmenu.Configuration;
 using PassWinmenu.Hotkeys;
+using PassWinmenu.Notifications;
 
 #nullable enable
 namespace PassWinmenu.Windows
@@ -25,6 +26,8 @@ namespace PassWinmenu.Windows
 		private readonly bool tryRemainOnTop = true;
 		private bool isClosing;
 		private bool firstActivation = true;
+
+		private readonly ISortingService sortingService;
 
 		protected readonly List<SelectionLabel> Labels = new();
 		/// <summary>
@@ -51,10 +54,11 @@ namespace PassWinmenu.Windows
 		/// <summary>
 		/// Initialises the window with the provided options.
 		/// </summary>
-		protected SelectionWindow(InterfaceConfig interfaceConfig, string hint)
+		protected SelectionWindow(InterfaceConfig interfaceConfig, ISortingService sortingService, string hint)
 		{
 			HintText = hint;
 			this.interfaceConfig = interfaceConfig;
+			this.sortingService = sortingService;
 
 			// Position and size the window according to user configuration.
 			Matrix fromDevice;
@@ -193,7 +197,12 @@ namespace PassWinmenu.Windows
 		/// </summary>
 		protected void ResetItems(IEnumerable<string> options)
 		{
-			scrollableView.ResetItems(options);
+
+			var sortedOptions = options.ToList();
+
+			sortingService.Sort(sortedOptions);
+
+			scrollableView.ResetItems(sortedOptions);
 			SetLabelContents(scrollableView.ItemsInView);
 		}
 
@@ -366,6 +375,7 @@ namespace PassWinmenu.Windows
 					break;
 				case Key.Enter:
 					e.Handled = true;
+					sortingService.recordUsedFile(SelectionText);
 					HandleConfirm();
 					break;
 				case Key.Escape:

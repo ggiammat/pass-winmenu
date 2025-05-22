@@ -4,6 +4,7 @@ using System.IO.Abstractions;
 using System.Windows;
 using System.Windows.Controls;
 using PassWinmenu.Configuration;
+using PassWinmenu.Notifications;
 using PassWinmenu.Utilities;
 
 namespace PassWinmenu.Windows
@@ -15,8 +16,8 @@ namespace PassWinmenu.Windows
 
 		private bool hasSuggestionForEnteredFileName;
 
-		public FileSelectionWindow(IDirectoryInfo baseDirectory, InterfaceConfig interfaceConfig,
-			string hint) : base(interfaceConfig, hint)
+		public FileSelectionWindow(IDirectoryInfo baseDirectory, InterfaceConfig interfaceConfig, ISortingService sortingService,
+			string hint) : base(interfaceConfig, sortingService, hint)
 		{
 			this.baseDirectory = baseDirectory;
 			autocomplete = new DirectoryAutocomplete(baseDirectory);
